@@ -6,5 +6,15 @@
 # Service Hackathon - 2/22/14 - Ian Riley
 ###
 import requests
+from bs4 import BeautifulSoup
 
+PARAMS = {"MeetingMonth": "2", "MeetingYear": "2014", "Submit": "Go"}
+meeting_list = requests.post("http://www.tulsacouncil.org/inc/search/meeting_detail.php?id=ZPO0H0YG210201412239", params=PARAMS)
+soup = BeautifulSoup(meeting_list.content)
 
+for table in soup.find_all('table'):
+    rows = table.find('tbody').find_all('tr')
+    for row in rows:
+        data = row.find_all('td')
+        for d in data:
+            print (d)
