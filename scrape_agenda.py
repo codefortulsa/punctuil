@@ -10,7 +10,7 @@ import re
 from bs4 import BeautifulSoup
 
 # PARAMS = {"MeetingMonth": "2", "MeetingYear": "2014", "Submit": "Go"}
-MEETING_DETAIL_URL = "http://www.tulsacouncil.org/inc/search/meeting_detail.php?id=ZPO0H0YG210201412239"
+COUNCIL_URL_ROOT = "http://www.tulsacouncil.org/inc/search"
 
 def scrape_agenda(meeting_detail_url):
     meeting_list = requests.get(meeting_detail_url)
@@ -33,17 +33,21 @@ def scrape_agenda(meeting_detail_url):
             print(col)
 
 def find_agendas():
-    MEETING_LIST_URL = 'http://www.tulsacouncil.org/inc/search/meeting_list.php'
+    MEETING_LIST_URL = '%s/meeting_list.php' % COUNCIL_URL_ROOT
     date_params = {"MeetingMonth": "2", "MeetingYear": "2014", "Submit": "Go"}
     meeting_list = requests.get(MEETING_LIST_URL, params=date_params)
     soup = BeautifulSoup(meeting_list.content)
 
     meeting_list = []
     for result in soup.find_all('td'):
-        meeting_list.append(result.get_text())
+        meeting_list.append({'href': result.a['href'],
+                             'text': result.get_text()})
 
     meeting_list.sort()
     for entry in meeting_list:
         print(entry)
+    return meeting_list
 
-find_agendas()
+meeting_list = find_agendas()
+for meeting in meeting_list:
+    scrape_agenda('%s/%s' % (COUNCIL_URL_ROOT, meeting['href']))
