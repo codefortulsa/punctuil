@@ -1,0 +1,26 @@
+{
+  "name": "punctuil",
+  "version": "0.0.0",
+  "description": "A small text message service to help Tulsa city council meeting speakers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codefortulsa/punctuil.git"
+  },
+  "keywords": [
+    "tulsa",
+    "city",
+    "council",
+    "meetings",
+    "agenda"
+  ],
+  "author": "groovecoder",
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/codefortulsa/punctuil/issues"
+  },
+  "homepage": "https://github.com/codefortulsa/punctuil"
+}
