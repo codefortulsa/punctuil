@@ -32,4 +32,18 @@ def scrape_agenda(meeting_detail_url):
         for col in row:
             print(col)
 
-scrape_agenda(MEETING_DETAIL_URL)
+def find_agendas():
+    MEETING_LIST_URL = 'http://www.tulsacouncil.org/inc/search/meeting_list.php'
+    date_params = {"MeetingMonth": "2", "MeetingYear": "2014", "Submit": "Go"}
+    meeting_list = requests.get(MEETING_LIST_URL, params=date_params)
+    soup = BeautifulSoup(meeting_list.content)
+
+    meeting_list = []
+    for result in soup.find_all('td'):
+        meeting_list.append(result.get_text())
+
+    meeting_list.sort()
+    for entry in meeting_list:
+        print(entry)
+
+find_agendas()
