@@ -11,3 +11,12 @@ Overview
 3. Allow users to subscribe to an item with their phone number
 4. Monitor the current item on TGOV: http://www.tgovonline.org/
 5. When the item is "upcoming", send a text message via Twilio
+
+To run locally
+--------------
+
+1. clone the repo
+2. `cp .env-dist .env`
+3. `python manage.py syncdb`
+4. `python manage.py migrate`
+5. `foreman start`
