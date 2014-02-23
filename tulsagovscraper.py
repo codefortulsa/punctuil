@@ -84,8 +84,3 @@ def get_meeting_list():
                              'text': meet.get_text().strip()})
     # return the data structure of meetings
     return meetings
-
-# runs the module SHOULD BE REPLACED
-#meeting_list = get_meeting_list()
-#for meeting in meeting_list:
-#    scrape_agenda('%s/%s' % (COUNCIL_URL_ROOT, meeting['href']))
