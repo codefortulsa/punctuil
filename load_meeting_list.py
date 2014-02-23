@@ -22,14 +22,20 @@ def main():
         # split the date/time into seperate integers
         dt = split(r'[\W]', meeting_info[0])
 
+        # check if the time is PM
+        if dt[5] == 'PM':
+            # adjust the time
+            dt[3] += 12
         # define a date time object for the meeting
         date_time = datetime(int(dt[2]), int(dt[0]), int(dt[1]), int(dt[3]), int(dt[4]))
         # define a meeting object
         meeting = Meeting(name=meeting_info[1], date=date_time, agenda_id=meeting['href'])
 
-        # print results REPLACE WITH SAVE
+        # print results
         print(meeting.name)
         print(meeting.date)
         print(meeting.agenda_id)
+        # save the results
+        meeting.save()
 
 main()
