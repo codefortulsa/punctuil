@@ -47,8 +47,18 @@
               <input id="filterBasic-input" data-type="search">
         </form>
         <ul data-role="listview" data-filter="true" data-input="#filterBasic-input">
-          {% for items in meeting.items.all %}
-          <li>{{ item.number }} - {{ item.text }}</li>
+          {% for item in meeting.items.all %}
+          <li data-icon="alert"><a href="#subscribe-{{ meeting.id }}-{{ item.id }}" data-rel="popup">{{ item.number }} - {{ item.text }}</a></li>
+          <div data-role="popup" id="subscribe-{{ meeting.id }}-{{ item.id }}">
+            <h3>Receive text alert for item?</h3>
+            <p>Enter your mobile phone number to receive a text when this item is discussed.</p>
+            <form action="/agendas/alert" method="post">
+              <input type="hidden" name="agenda_item" value="{{ item.id }}">
+              <label for="tel">Tel:</label>
+              <input name="tel" value="" type="tel">
+              <input type="submit" value="Submit">
+            </form>
+          </div>
           {% endfor %}
         </ul>
       </div>
@@ -57,6 +67,7 @@
         <a href="http://github.com/codefortulsa/punctuil" target="_blank">Coded</a> by <a href="http://codefortulsa.org" target="_blank">Code for Tulsa</a> and <a href="http://orgs.utulsa.edu/acm/" target="_blank">TU ACM</a>
       </div>
     </div>
+
     {% endfor %}
 
 
