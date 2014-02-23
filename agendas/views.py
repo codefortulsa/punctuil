@@ -1,5 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Meeting
+
+
 def index(request):
-    return render(request, 'agendas/index.html')
+    meetings = Meeting.objects.all()
+    return render(request, 'agendas/index.html',
+                  {'meetings': meetings})

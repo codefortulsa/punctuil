@@ -17,7 +17,14 @@
       </div>
 
       <div data-role="content">
-  content
+        <form class="ui-filterable">
+              <input id="filterBasic-input" data-type="search">
+        </form>
+        <ul data-role="listview" data-filter="true" data-input="#filterBasic-input">
+          {% for meeting in meetings %}
+          <li>{{ meeting.date }} - {{ meeting.name }}</li>
+          {% endfor %}
+        </ul>
       </div>
 
       <div data-role="footer" data-position="fixed">
