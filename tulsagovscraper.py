@@ -29,7 +29,6 @@ def scrape_agenda(meeting_agenda_url):
     # instantialize a list to store the agenda information
     agenda_information = []
     agenda_point = 0
-
     # the agenda points are all contained in table data elements, so we pull
     # all of the table table elements to locate the elements with the information
     # that we need
@@ -38,17 +37,28 @@ def scrape_agenda(meeting_agenda_url):
         if re.match(patt, element.get_text()):
             # append the agenda information for each point into the data structure
             agenda_information.append([])
-            # append the section information
-            agenda_information[agenda_point].append(element.find_previous_sibling('td').get_text().strip())
-            # append the item number
-            agenda_information[agenda_point].append(element.get_text().strip())
+            if element.find_previous_sibling() == None:
+                # append the section information
+                agenda_information[agenda_point].append(element.get_text().strip())
+                if element.find_next_sibling() == None:
+                    agenda_information.pop(len(agenda_information)-1)
+                    continue
+                # append the item number
+                agenda_information[agenda_point].append(int(re.search(r'\d+', element.find_next_sibling().get_text().strip()).group(0)))
+            else:
+                # append the section information
+                agenda_information[agenda_point].append(element.find_previous_sibling().get_text().strip())
+                # append the item number
+                agenda_information[agenda_point].append(int(re.search(r'\d+', element.get_text().strip()).group(0)))
             # append the text, minutes, and backup
             for point_info in element.find_next_siblings('td', None, None, 3):
                 agenda_information[agenda_point].append(point_info.get_text().strip())
+            for index in range(5-len(agenda_information[agenda_point])):
+                agenda_information[agenda_point].append('')
             agenda_point += 1
-            # return the results
-            return agenda_information
-
+    
+    # return the results
+    return agenda_information
 ##
 # The Tulsa City Council page for their meetings is segmented by month and year. Each meeting
 # contains a date, time, topic, and reference to the agenda information. This function requests
