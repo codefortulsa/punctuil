@@ -9,7 +9,7 @@ class Meeting(models.Model):
 
 
 class AgendaItem(models.Model):
-    meeting = models.ForeignKey(Meeting)
+    meeting = models.ForeignKey(Meeting, related_name='items')
     section = models.TextField(blank=True)
     number = models.IntegerField()
     text = models.TextField()
