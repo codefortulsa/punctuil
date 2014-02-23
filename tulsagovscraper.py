@@ -46,11 +46,8 @@ def scrape_agenda(meeting_agenda_url):
             for point_info in element.find_next_siblings('td', None, None, 3):
                 agenda_information[agenda_point].append(point_info.get_text().strip())
             agenda_point += 1
-
-    # prints the results SHOULD BE REPLACED
-    for row in agenda_information:
-        for col in row:
-            print(col)
+            # return the results
+            return agenda_information
 
 ##
 # The Tulsa City Council page for their meetings is segmented by month and year. Each meeting
@@ -79,6 +76,6 @@ def get_meeting_list():
     return meetings
 
 # runs the module SHOULD BE REPLACED
-meeting_list = get_meeting_list()
-for meeting in meeting_list:
-    scrape_agenda('%s/%s' % (COUNCIL_URL_ROOT, meeting['href']))
+#meeting_list = get_meeting_list()
+#for meeting in meeting_list:
+#    scrape_agenda('%s/%s' % (COUNCIL_URL_ROOT, meeting['href']))
