@@ -38,8 +38,11 @@ def scrape_agenda(meeting_agenda_url):
         if re.match(patt, element.get_text()):
             # append the agenda information for each point into the data structure
             agenda_information.append([])
+            # append the section information
+            agenda_information[agenda_point].append(element.find_previous_sibling('td').get_text().strip())
+            # append the item number
             agenda_information[agenda_point].append(element.get_text().strip())
-            # the information for the agenda point is contained on the next 3 lines
+            # append the text, minutes, and backup
             for point_info in element.find_next_siblings('td', None, None, 3):
                 agenda_information[agenda_point].append(point_info.get_text().strip())
             agenda_point += 1
@@ -71,7 +74,7 @@ def get_meeting_list():
     # and append the meeting information to the internal data structure
     for meet in parser.find_all('td'):
         meetings.append({'href': meet.a['href'],
-                             'text': meet.get_text()})
+                             'text': meet.get_text().strip()})
     # return the data structure of meetings
     return meetings
 
