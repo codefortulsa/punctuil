@@ -23,11 +23,12 @@ def main():
         dt = split(r'[\W]', meeting_info[0])
 
         # check if the time is PM
+        the_time = int(dt[3])
         if dt[5] == 'PM':
             # adjust the time
-            dt[3] += 12
+            the_time += 12
         # define a date time object for the meeting
-        date_time = datetime(int(dt[2]), int(dt[0]), int(dt[1]), int(dt[3]), int(dt[4]))
+        date_time = datetime(int(dt[2]), int(dt[0]), int(dt[1]), the_time, int(dt[4]))
         # define a meeting object
         meeting = Meeting(name=meeting_info[1], date=date_time, agenda_id=meeting['href'])
 
