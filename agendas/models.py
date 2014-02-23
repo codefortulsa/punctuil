@@ -5,7 +5,7 @@ from django.db import models
 class Meeting(models.Model):
     date = models.DateTimeField()
     name = models.CharField(max_length=200)
-    agenda_id = models.CharField(max_length=200)
+    agenda_id = models.CharField(max_length=200, unique=True)
 
 
 class AgendaItem(models.Model):
