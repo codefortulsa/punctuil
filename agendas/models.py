@@ -15,3 +15,9 @@ class AgendaItem(models.Model):
     text = models.TextField()
     minutes = models.TextField(blank=True)
     backup = models.TextField(blank=True)
+
+
+class Alert(models.Model):
+    item = models.ForeignKey(AgendaItem, related_name='alerts')
+    phone = models.CharField(max_length=12)
+    sent = models.BooleanField(default=False)

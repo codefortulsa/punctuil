@@ -53,6 +53,7 @@
             <h3>Receive text alert for item?</h3>
             <p>Enter your mobile phone number to receive a text when this item is discussed.</p>
             <form action="/agendas/alert" method="post">
+              {% csrf_token %}
               <input type="hidden" name="agenda_item" value="{{ item.id }}">
               <label for="tel">Tel:</label>
               <input name="tel" value="" type="tel">
