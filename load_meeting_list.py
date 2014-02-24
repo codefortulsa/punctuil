@@ -32,13 +32,13 @@ def main():
 
         # define a date time object for the meeting
         date_time = datetime(int(dt[2]), int(dt[0]), int(dt[1]), the_time, int(dt[4]))
-        meetings.append((date_time, meeting_info[1], meeting['href']))
+        meetings.append({'date': date_time, 'name': meeting_info[1], 'id': meeting['href']})
     
     # sort the list of meetings by date/time
     meetings.sort()
 
     # store all of the meetings in the database
     for meet in meetings:
-        Meeting.objects.create(name=meet[1], date=meet[0], agenda_id=meet[2])
+        Meeting.objects.create(name=meet['name'], date=meet['date'], agenda_id=meet['id'])
 
 main()
