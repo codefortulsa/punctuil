@@ -13,6 +13,6 @@ def index(request):
 def alert(request):
     if 'POST' == request.method:
         item = get_object_or_404(AgendaItem, pk=request.POST.get('agenda_item'))
-        alert = Alert(item=item, phone=request.POST.get('tel'), sent=False)
+        alert = Alert(item=item, phone=request.POST.get('tel'), one_sent=False, two_sent=False, now_sent=False)
         alert.save()
         return HttpResponse(status_code=201)

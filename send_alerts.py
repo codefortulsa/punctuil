@@ -33,7 +33,7 @@ def main(current_item, all_items):
                 alert.save()
 
             # check if the subscribed item is the next item
-            else if (not alert.one_sent) and (index+1 < len(all_items)) and (all_items[index+1]['number'] == alert.item.number):
+            elif (not alert.one_sent) and (index+1 < len(all_items)) and (all_items[index+1]['number'] == alert.item.number):
                 # notify the subscriber that their agenda item is the next item
                 message = client.messages.create(to=alert.phone, from_="9185508625", body="Tulsa City Council is now on Agenda Item : %d. Your Agenda Item is next!" % current_item)
                 # mark the first alert as sent
@@ -42,10 +42,10 @@ def main(current_item, all_items):
                 alert.save()
 
             # check if the subscribed item is the second to next item
-            else if (not alert.two_sent) and (index+2 < len(all_items)) and (all_items[index+2]['number'] == alert.item.number):
+            elif (not alert.two_sent) and (index+2 < len(all_items)) and (all_items[index+2]['number'] == alert.item.number):
                 # notify the subscriber that their agenda item is the second to next item
                 message = client.messages.create(to=alert.phone, from_="9185508625", body="Tulsa City Council is now on Agenda Item: %d. Your Agenda Item is 2 away!" % current_item)
                 # mark the second alert as sent
-                alert.two_sent()
+                alert.two_sent = True
                 # update the alert
                 alert.save()
