@@ -20,10 +20,11 @@ logging.basicConfig()
 @sched.interval_schedule(minutes=1)
 def timed_job():
     # scrape the live feed every minute
-    item_number = scrape_livestream.get_current_item()
     # scrape the list of 'All Items' from the live feed to discover
     # the order in which they are covering the items
     all_items = scrape_livestream.get_all_items()
+    # scrape the current item
+    item_number = scrape_livestream.get_current_item()
     # send out the appropriate alerts
     if item_number != None:
         # attach the current item number and the list of all item numbers
@@ -31,14 +32,19 @@ def timed_job():
 
 @sched.cron_schedule(day_of_week='mon-sun', hour=0)
 def scheduled_job():
-    # scrape the agenda information at the beginning of every day
-    load_agendas.main()
-
-@sched.cron_schedule(day_of_week='mon-sun', hour=0)
-def scheduled_job():
     # scrape the meeting list at the beginning of every day
     load_meeting_list.main()
 
+@sched.cron_schedule(day_of_week='mon-sun', hour=0, minute=1)
+def scheduled_job():
+    # scrape the agenda information at the beginning of every day
+    load_agendas.main()
+
+# load the meeting list and agenda items for the current month
+load_meeting_list.main()
+load_agendas.main()
+
+# start the scheduler
 sched.start()
 
 while True:
