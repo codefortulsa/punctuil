@@ -10,10 +10,12 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "punctuil_django.settings")
 from apscheduler.scheduler import Scheduler
 import load_agendas
 import load_meeting_list
+import logging
 import scrape_livestream
 import send_alerts
 
 sched = Scheduler()
+logging.basicConfig()
 
 @sched.interval_schedule(minutes=1)
 def timed_job():
