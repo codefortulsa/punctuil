@@ -16,7 +16,10 @@ To run locally
 --------------
 
 1. clone the repo
-2. `cp .env-dist .env`
-3. `python manage.py syncdb`
-4. `python manage.py migrate`
-5. `foreman start`
+2. `pip install -r requirements.txt`
+3. `cp .env-dist .env`
+4. Change the `full/path/to/current/dir/db.sqlite`
+5. `export DATABASE_URL=sqlite:////full/path/to/current/dir/db.sqlite`
+6. `python manage.py syncdb`
+7. `python manage.py migrate`
+8. `foreman start`
