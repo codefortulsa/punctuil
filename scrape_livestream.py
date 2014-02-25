@@ -28,5 +28,5 @@ def get_all_items():
     agenda_items = []
     # scrape the items from the 'All Items' field contained in a tags with the class : itemLink
     for item in parser.findAll('a', {'class': 'itemLink'}):
-        agenda_items.append(item.get_text())
+        agenda_items.append({'number': int(re.search(r'\d+\.', item.get_text()).group(0).strip('.')), 'text': item.get_text()})
     return agenda_items
