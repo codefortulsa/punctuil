@@ -2,21 +2,32 @@
 # The scheduled times to run the scraper on Tulsa City Council's website.
 # Service Hackathon - 2/22/14 Ian Riley
 ###
+
+# configure the django settings module in order to import the necessary models
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "punctuil_django.settings")
+
 from apscheduler.scheduler import Scheduler
+import load_agendas
+import load_meeting_list
+import send_alerts
 
 sched = Scheduler()
 
 @sched.interval_schedule(minutes=1)
 def timed_job():
-    print('scrape the live feed every minute')
+    #scrape the live feed every minute
+    send_alerts.main()
 
 @sched.cron_schedule(day_of_week='mon-sun', hour=0)
 def scheduled_job():
-    print('scrape the agenda information at the beginning of every day')
+    #scrape the agenda information at the beginning of every day
+    load_agendas.main()
 
-@sched.cron_scheduler(day=1, hour=0)
+@sched.cron_schedule(day_of_week='mon-sun', hour=0)
 def scheduled_job():
-    print('scrape the meeting list at the beginning of every month')
+    #scrape the meeting list at the beginning of every day
+    load_meeting_list.main()
 
 sched.start()
 

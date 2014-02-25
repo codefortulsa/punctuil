@@ -3,10 +3,6 @@
 # Service Hackathon - 2/23/14 Ian Riley
 ###
 
-# configure the django settings module in order to import the necessary models
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "punctuil_django.settings")
-
 from agendas.models import Meeting
 from datetime import datetime
 from re import split
@@ -40,5 +36,3 @@ def main():
     # store all of the meetings in the database
     for meet in meetings:
         Meeting.objects.create(name=meet['name'], date=meet['date'], agenda_id=meet['id'])
-
-main()

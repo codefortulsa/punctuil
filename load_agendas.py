@@ -3,10 +3,6 @@
 # Service Hackathon - 2/23/14 Ian Riley
 ###
 
-# configure the django settings module in order to import the necessary models
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "punctuil_django.settings")
-
 from agendas.models import AgendaItem, Meeting
 import re
 import tulsagovscraper as tgs
@@ -59,5 +55,3 @@ def main():
         for item in scraped_items:
             item['item'].save()
             print('%d - entry saved' % item['item'].number)
-
-main()

@@ -2,10 +2,6 @@
 # Service Hackathon - 2/23/14 Ian Riley
 ###
 
-# configure the django settings module in order to import the necessary models
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "punctuil_django.settings")
-
 from agendas.models import Alert
 # download the twilio-python library from http://twilio.com/docs/libraries
 from twilio.rest import TwilioRestClient
@@ -23,4 +19,3 @@ def main():
             alert.save()
 
             print('alert sent')
-main()
