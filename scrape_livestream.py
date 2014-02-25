@@ -9,8 +9,6 @@ import requests
 
 # the url for the livestream
 LIVESTREAM_URL = 'http://tulsa-ok.granicus.com/MediaPlayer.php?publish_id=2'
-# the url for the test stream
-TESTSTREAM_URL = 'http://tulsa-ok.granicus.com/MediaPlayer.php?view_id=2&clip_id=1850'
  
 # scrapes the current agenda item that is being discussed
 def get_current_item():

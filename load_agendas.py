@@ -15,7 +15,6 @@ def main():
         # clear the previous agenda before adding the new one
         for agenda_item in AgendaItem.objects.all().filter(meeting=meeting):
             agenda_item.delete()
-            print('%d - entry deleted' % agenda_item.number)
 
         # get the agenda information for the meeting
         info = tgs.scrape_agenda('%s/%s' % (tgs.COUNCIL_URL_ROOT, meeting.agenda_id))
@@ -54,4 +53,3 @@ def main():
         # save the agenda items
         for item in scraped_items:
             item['item'].save()
-            print('%d - entry saved' % item['item'].number)
