@@ -15,7 +15,7 @@ TESTSTREAM_URL = 'http://tulsa-ok.granicus.com/MediaPlayer.php?view_id=2&clip_id
 # scrapes the current agenda item that is being discussed
 def get_current_item():
     # load the webpage into a BeautifulSoup object (a html parser)
-    parser = BeautifulSoup(requests.get(TESTSTREAM_URL).content)
+    parser = BeautifulSoup(requests.get(LIVESTREAM_URL).content)
     # scrape the 'Current Item' contained in a span tag with the id : IndexName
     current_item = parser.find('span', {'id': 'IndexName'})
     # check that a current item exists
@@ -28,7 +28,7 @@ def get_current_item():
 # scrapes the list of items to be covered in the meeting
 def get_all_items():
     # load the webpage into a BeautifulSoup object (a html parser)
-    parser = BeautifulSoup(requests.get(TESTSTREAM_URL).content)
+    parser = BeautifulSoup(requests.get(LIVESTREAM_URL).content)
     # an internal list to contain the agenda items
     agenda_items = []
     # scrape the items from the 'All Items' field contained in a tags with the class : itemLink
