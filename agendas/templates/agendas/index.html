@@ -39,6 +39,7 @@
     {% for meeting in meetings %}
     <div data-role="page" id="meeting-{{ meeting.id }}">
       <div data-role="header">
+        <a href="#meetings" data-icon="calendar" class="ui-btn-left">Home</a>
         <h1>Tulsa City Council Agendas</h1>
       </div>
 
@@ -55,7 +56,6 @@
             <form action="/agendas/alert" method="post">
               {% csrf_token %}
               <input type="hidden" name="agenda_item" value="{{ item.id }}">
-              <label for="tel">Tel:</label>
               <input name="tel" value="" type="tel">
               <input type="submit" value="Submit">
             </form>
