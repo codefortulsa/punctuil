@@ -24,7 +24,10 @@ def scrape_agenda(meeting_agenda_url):
     # agenda points are organized numerically, therefore we can locate the information
     # for each point in the agenda using a regex pattern defined to match numbers, and
     # then pulling the subsequent lines
-    patt  = re.compile(r'\d+\.')
+    patt  = re.compile(r'\w+\.\Z')
+    # In some cases, the first item in the agenda has the Item organization as a section
+    # header. In these cases, the section header needs to be cleared.
+    bad_sect_patt = re.compile(r'Section[\W]+Item[\W]+Text[\W]+Minutes[\W]+Backup[\W]*')
 
     # instantialize a list to store the agenda information
     agenda_information = []
@@ -37,24 +40,18 @@ def scrape_agenda(meeting_agenda_url):
         if re.match(patt, element.get_text()):
             # append the agenda information for each point into the data structure
             agenda_information.append([])
-            if element.find_previous_sibling() == None:
-                # append the section information
-                agenda_information[agenda_point].append(element.get_text().strip())
-                if element.find_next_sibling() == None:
-                    agenda_information.pop(len(agenda_information)-1)
-                    continue
-                # append the item number
-                agenda_information[agenda_point].append(int(re.search(r'\d+', element.find_next_sibling().get_text().strip()).group(0)))
-            else:
-                # append the section information
-                agenda_information[agenda_point].append(element.find_previous_sibling().get_text().strip())
-                # append the item number
-                agenda_information[agenda_point].append(int(re.search(r'\d+', element.get_text().strip()).group(0)))
+            # append the section information
+            section_header = element.find_previous_sibling().get_text().strip()
+            # check that the section header is appropriate
+            if bad_sect_patt.match(section_header):
+                # clear the section header
+                section_header = ''
+            agenda_information[agenda_point].append(section_header)
+            # append the item number
+            agenda_information[agenda_point].append(element.get_text().strip())
             # append the text, minutes, and backup
             for point_info in element.find_next_siblings('td', None, None, 3):
                 agenda_information[agenda_point].append(point_info.get_text().strip())
-            for index in range(5-len(agenda_information[agenda_point])):
-                agenda_information[agenda_point].append('')
             agenda_point += 1
     
     # return the results
@@ -80,7 +77,7 @@ def get_meeting_list():
     # use the parser to pull all the table data elements,
     # and append the meeting information to the internal data structure
     for meet in parser.find_all('td'):
-        meetings.append({'href': meet.a['href'],
-                             'text': meet.get_text().strip()})
+        meetings.append({'href': meet.a['href'], 'text': meet.get_text().strip()})
+
     # return the data structure of meetings
     return meetings
