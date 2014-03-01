@@ -15,7 +15,9 @@ from tulsagovscraper import get_meeting_list
 def main():
     # retrieve the list of meetings from the website
     meeting_list = get_meeting_list()
+    # define an object to store the meetings into
     meetings = []
+
     for meeting in meeting_list:
         # split the meeting information into date/time and name
         meeting_info = split(r' - ', meeting['text'])
@@ -27,18 +29,16 @@ def main():
         if dt[5] == 'PM':
             # adjust the time
             the_time += 12
+
         # define a date time object for the meeting
         date_time = datetime(int(dt[2]), int(dt[0]), int(dt[1]), the_time, int(dt[4]))
-        
         meetings.append((date_time, meeting_info[1], meeting['href']))
     
+    # sort the list of meetings by date/time
     meetings.sort()
-   
+
+    # store all of the meetings in the database
     for meet in meetings:
-        meeting = Meeting(name=meet[1], date=meet[0], agenda_id=meet[2])
-        print(meeting.name)
-        print(meeting.date)
-        print(meeting.agenda_id)
-        meeting.save()
+        Meeting.objects.create(name=meet[1], date=meet[0], agenda_id=meet[2])
 
 main()
