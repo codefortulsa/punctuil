@@ -18,7 +18,7 @@ sched = Scheduler()
 logging.basicConfig()
 
 @sched.interval_schedule(minutes=1)
-def timed_job():
+def timed_live_feed_job():
     # scrape the live feed every minute
     # scrape the list of 'All Items' from the live feed to discover
     # the order in which they are covering the items
@@ -31,12 +31,12 @@ def timed_job():
         send_alerts.main(item_number, all_items)
 
 @sched.cron_schedule(day_of_week='mon-sun', hour=0)
-def scheduled_job():
+def scheduled_meeting_job():
     # scrape the meeting list at the beginning of every day
     load_meeting_list.main()
 
 @sched.cron_schedule(day_of_week='mon-sun', hour=0, minute=1)
-def scheduled_job():
+def scheduled_agenda_job():
     # scrape the agenda information at the beginning of every day
     load_agendas.main()
 
