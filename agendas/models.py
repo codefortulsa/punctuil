@@ -20,4 +20,6 @@ class AgendaItem(models.Model):
 class Alert(models.Model):
     item = models.ForeignKey(AgendaItem, related_name='alerts')
     phone = models.CharField(max_length=12)
-    sent = models.BooleanField(default=False)
+    one_sent = models.BooleanField(default=False)
+    two_sent = models.BooleanField(default=False)
+    now_sent = models.BooleanField(default=False)
