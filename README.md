@@ -1,25 +1,53 @@
-punctuil
-========
+# punctuil
 
-A small text message service to help council meeting speakers.
+punctuil scrapes [Tulsa City Council meetings'
+agendas](http://www.tulsacouncil.org/meetings--agendas/search-agendas.aspx) and
+[TGOV](http://www.tgovonline.org/) to send text alerts for agenda items as
+they are discussed in council.
 
-Overview
---------
 
-1. Use http://www.tulsacouncil.org/meetings--agendas/search-agendas.aspx and http://www.tulsacouncil.org/inc/search/meeting_list.php to find meeting agenda links which leads to ...
-2. Scrape the agenda details from the meeting detail page. e.g., http://www.tulsacouncil.org/inc/search/meeting_detail.php?id=ZPO0H0YG210201412239
-3. Allow users to subscribe to an item with their phone number
-4. Monitor the current item on TGOV: http://www.tgovonline.org/
-5. When the item is "upcoming", send a text message via Twilio
+## Development
 
-To run locally
---------------
+### Help maintain this README
 
-1. clone the repo
-2. `pip install -r requirements.txt`
-3. `cp .env-dist .env`
-4. Change the `full/path/to/current/dir/db.sqlite`
-5. `export DATABASE_URL=sqlite:////full/path/to/current/dir/db.sqlite`
-6. `python manage.py syncdb`
-7. `python manage.py migrate`
-8. `foreman start`
+If you have trouble with any part of this README, please [file an
+issue](https://github.com/codefortulsa/punctuil/issues/new) for us so we can
+help you. Especially if you are new to the project - we need your input to help
+make it as easy as possible for new contributors.
+
+
+### Run locally
+
+We want to make sure punctuil is portable between environments and can be
+deployed on modern platforms. So, we strongly suggest you:
+
+1. Create a [virtual
+   environment](https://python-guide.readthedocs.org/en/latest/dev/virtualenvs/) for punctuil and activate it
+2. Install
+   [autoenv](https://python-guide.readthedocs.org/en/latest/dev/virtualenvs/#autoenv)
+
+Once you have done that, you should be able to follow these steps to run
+punctuil locally with little or no differences from the production site:
+
+```
+git clone https://github.com/codefortulsa/punctuil.git
+cp punctuil/.env-dist punctuil/.env
+```
+
+Open `punctuil/.env` and change `full/path/to/current/dir/db.sqlite` to match
+   your `punctuil` directory
+
+```
+cd punctuil
+pip install -r requirements.txt
+python manage.py syncdb
+python manage.py migrate
+foreman start
+```
+
+Yay! punctuil is running on your machine very much like it does on the
+production site. But to make and test changes you'll probably need to ...
+
+### Load data manually
+
+As-written, punctuil only loads data once per day. 
