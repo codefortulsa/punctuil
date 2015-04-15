@@ -12,5 +12,5 @@ pystache==0.5.3
 requests==2.2.1
 static==1.0.2
 wsgiref==0.1.2
-twilio
-apscheduler
+twilio==3.6.6
+apscheduler==2.1.2
