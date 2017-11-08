@@ -7,18 +7,18 @@
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "punctuil_django.settings")
 
-from apscheduler.scheduler import Scheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import load_agendas
 import load_meeting_list
 import logging
 import scrape_livestream
 import send_alerts
 
-sched = Scheduler()
+sched = BackgroundScheduler()
 logging.basicConfig()
 
-@sched.interval_schedule(minutes=1)
-def timed_job():
+
+def scrape_live_feed():
     # scrape the live feed every minute
     # scrape the list of 'All Items' from the live feed to discover
     # the order in which they are covering the items
@@ -26,19 +26,33 @@ def timed_job():
     # scrape the current item
     item_number = scrape_livestream.get_current_item()
     # send out the appropriate alerts
-    if item_number != None:
+    if item_number is not None:
         # attach the current item number and the list of all item numbers
         send_alerts.main(item_number, all_items)
 
-@sched.cron_schedule(day_of_week='mon-sun', hour=0)
-def scheduled_job():
+sched.add_job(scrape_live_feed, 'interval', minutes=1)
+
+
+def scrape_meeting_list():
     # scrape the meeting list at the beginning of every day
     load_meeting_list.main()
 
-@sched.cron_schedule(day_of_week='mon-sun', hour=0, minute=1)
-def scheduled_job():
+sched.add_job(scrape_meeting_list,
+              trigger='cron',
+              day_of_week='mon-sun',
+              hour=0)
+
+
+def scrape_agenda_items():
     # scrape the agenda information at the beginning of every day
     load_agendas.main()
+
+sched.add_job(scrape_agenda_items,
+              trigger='cron',
+              day_of_week='mon-sun',
+              hour=0,
+              minute=1)
+
 
 # load the meeting list and agenda items for the current month
 load_meeting_list.main()
