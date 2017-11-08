@@ -2,10 +2,14 @@
 # Loads the agendas for each meeting into the database.
 # Service Hackathon - 2/23/14 Ian Riley
 ###
+import re
+
+import django
+django.setup()
 
 from agendas.models import AgendaItem, Meeting
-import re
 import tulsagovscraper as tgs
+
 
 def main():
     # get the list of meetings
@@ -53,3 +57,7 @@ def main():
         # save the agenda items
         for item in scraped_items:
             item['item'].save()
+
+
+if __name__ == "__main__":
+    main()

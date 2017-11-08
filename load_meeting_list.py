@@ -2,11 +2,15 @@
 # Loads the list of meetings from the website into the database.
 # Service Hackathon - 2/23/14 Ian Riley
 ###
-
-from agendas.models import Meeting
 from datetime import datetime
 from re import split
+
+import django
+django.setup()
+
+from agendas.models import Meeting
 from tulsagovscraper import get_meeting_list
+
 
 def main():
     # retrieve the list of meetings from the website
@@ -29,10 +33,14 @@ def main():
         # define a date time object for the meeting
         date_time = datetime(int(dt[2]), int(dt[0]), int(dt[1]), the_time, int(dt[4]))
         meetings.append({'date': date_time, 'name': meeting_info[1], 'id': meeting['href']})
-    
+
     # sort the list of meetings by date/time
     meetings.sort()
 
     # store all of the meetings in the database
     for meet in meetings:
         Meeting.objects.create(name=meet['name'], date=meet['date'], agenda_id=meet['id'])
+
+
+if __name__ == "__main__":
+    main()
