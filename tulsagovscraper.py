@@ -20,7 +20,7 @@ def scrape_agenda(meeting_agenda_url):
     # send a POST request for the meeting agenda
     meeting_agenda = requests.get(meeting_agenda_url)
     # load the content of the page into a BeautifulSoup object(a html parser)
-    parser = BeautifulSoup(meeting_agenda.content)
+    parser = BeautifulSoup(meeting_agenda.content, "html.parser")
     # agenda points are organized numerically, therefore we can locate the information
     # for each point in the agenda using a regex pattern defined to match numbers, and
     # then pulling the subsequent lines
@@ -69,7 +69,7 @@ def get_meeting_list():
     # send a POST request for the meeting list
     meeting_list = requests.get(MEETING_LIST_URL, params=date_params)
     # load the meeting list into a BeautifulSoup object(an html parser)
-    parser = BeautifulSoup(meeting_list.content)
+    parser = BeautifulSoup(meeting_list.content, "html.parser")
 
     # the data structure containing the list of meetings
     meetings = []

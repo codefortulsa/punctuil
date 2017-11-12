@@ -35,10 +35,10 @@ def main():
         meetings.append({'date': date_time, 'name': meeting_info[1], 'id': meeting['href']})
 
     # sort the list of meetings by date/time
-    meetings.sort()
+    sorted_meetings = sorted(meetings, key=lambda k: k['date'], reverse=True)
 
     # store all of the meetings in the database
-    for meet in meetings:
+    for meet in sorted_meetings:
         Meeting.objects.create(name=meet['name'], date=meet['date'], agenda_id=meet['id'])
 
 
