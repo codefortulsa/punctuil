@@ -39,7 +39,9 @@ def main():
 
     # store all of the meetings in the database
     for meet in sorted_meetings:
-        Meeting.objects.create(name=meet['name'], date=meet['date'], agenda_id=meet['id'])
+        Meeting.objects.get_or_create(
+            name=meet['name'], date=meet['date'], agenda_id=meet['id']
+        )
 
 
 if __name__ == "__main__":
