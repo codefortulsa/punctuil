@@ -15,4 +15,4 @@ def alert(request):
         item = get_object_or_404(AgendaItem, pk=request.POST.get('agenda_item'))
         alert = Alert(item=item, phone=request.POST.get('tel'), one_sent=False, two_sent=False, now_sent=False)
         alert.save()
-        return HttpResponse(status_code=201)
+        return HttpResponse(status=201)
