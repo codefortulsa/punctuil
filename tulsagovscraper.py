@@ -77,7 +77,10 @@ def get_meeting_list():
     # use the parser to pull all the table data elements,
     # and append the meeting information to the internal data structure
     for meet in parser.find_all('td'):
-        meetings.append({'href': meet.a['href'], 'text': meet.get_text().strip()})
+        if meet.a:
+            meetings.append(
+                {'href': meet.a['href'], 'text': meet.get_text().strip()}
+            )
 
     # return the data structure of meetings
     return meetings
